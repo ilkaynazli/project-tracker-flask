@@ -18,7 +18,6 @@ def get_homepage():
                             students=students)
 
 
-
 @app.route("/student_search")
 def get_student_form():
     """Show form for searching for a student"""
@@ -55,7 +54,7 @@ def display_projects():
     """Displays the project information"""
 
     project_title = request.args.get("title")
-    project_info = hackbright.get_project_by_title(project_title.title())
+    project_info = hackbright.get_project_by_title(project_title)
 
     rows = hackbright.get_grades_by_title(project_title)
 
@@ -72,7 +71,7 @@ def new_student_form():
 
 @app.route("/add_student", methods=['POST'])
 def add_new_student():
-    """Add a new student info to students database"""
+    """Add a new student info to students table"""
 
     first_name = request.form.get('fname')
     last_name = request.form.get('lname')
@@ -85,8 +84,26 @@ def add_new_student():
                             last=last_name,
                             github=github)
 
+@app.route("/new_project")
+def new_project_form():
+    """Display the form for adding a new project"""
+    
+    return render_template("new_project.html")
 
 
+@app.route("/add_project", methods=['POST'])
+def add_new_project():
+    """Add a new project info to the projects table"""
+    title = request.form.get('title')
+    description = request.form.get('description')
+    max_grade = request.form.get('max_grade')
+
+    hackbright.make_new_project(title, description, max_grade)
+
+    return render_template("new_project_added.html", 
+                            title=title,
+                            description=description,
+                            max_grade=max_grade)
 
 
 
