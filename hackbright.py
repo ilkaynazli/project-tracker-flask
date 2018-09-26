@@ -33,7 +33,7 @@ def get_student_by_github(github):
 
     row = db_cursor.fetchone()
 
-    print(f"Student: {row[0]} {row[1]}\nGitHub account: {row[2]}")
+    print("Student: {} {}\nGitHub account: {}" .format(row[0], row[1], row[2]))
 
     return row
 
@@ -55,7 +55,7 @@ def make_new_student(first_name, last_name, github):
                                'github': github})
     db.session.commit()
 
-    print(f"Successfully added student: {first_name} {last_name}")
+    print("Successfully added student: {} {}" .format(first_name, last_name))
 
 
 def get_project_by_title(title):
@@ -71,7 +71,8 @@ def get_project_by_title(title):
 
     row = db_cursor.fetchone()
 
-    print(f"Title: {row[0]}\nDescription: {row[1]}\nMax Grade: {row[2]}")
+    print("Title: {}\nDescription: {}\nMax Grade: {}" 
+        .format(row[0], row[1], row[2]))
 
     return row
 
@@ -90,7 +91,8 @@ def get_grade_by_github_title(github, title):
 
     row = db_cursor.fetchone()
 
-    print(f"Student {github} in project {title} received grade of {row[0]}")
+    print("Student {} in project {} received grade of {}"
+        .format(github, title, row[0]))
 
     return row
 
@@ -109,7 +111,8 @@ def assign_grade(github, title, grade):
 
     db.session.commit()
 
-    print(f"Successfully assigned grade of {grade} for {github} in {title}")
+    print("Successfully assigned grade of {} for {} in {}"
+        .format(grade, github, title))
 
 
 def get_grades_by_github(github):
@@ -126,7 +129,8 @@ def get_grades_by_github(github):
     rows = db_cursor.fetchall()
 
     for row in rows:
-        print(f"Student {github} received grade of {row[1]} for {row[0]}")
+        print("Student {} received grade of {} for {}"
+            .format(github, row[1], row[0]))
 
     return rows
 
@@ -145,7 +149,8 @@ def get_grades_by_title(title):
     rows = db_cursor.fetchall()
 
     for row in rows:
-        print(f"Student {row[0]} received grade of {row[1]} for {title}")
+        print("Student {} received grade of {} for {}"
+            .format(row[0], row[1], title))
 
     return rows
 

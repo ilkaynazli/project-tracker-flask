@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Tracker{% endblock %}
+
+{% block content %}
+    <form action="/student">
+        <label>Enter Github username
+            <input type="text" name="github">
+        </label>
+        <input type="submit" value="Display Student">
+    </form>
+{% endblock %}

@@ -18,22 +18,44 @@ def get_student():
 
     github = request.args.get('github')
 
+    # import pdb; pdb.set_trace()
+
     first, last, github = hackbright.get_student_by_github(github)
 
     rows = hackbright.get_grades_by_github(github)
 
-    html = render_template("student_info.html", 
+    print(rows)
+
+    return render_template("student_info.html", 
                             first=first,
                             last=last,
                             github=github,
-                            rows=rows)
-    return html
+                            grades=rows)
+
+
+@app.route('/project_info')
+def ask_for_project_name():
+    """Display a form to get a project name"""
+
+    return render_template("projects.html")
+
+
+@app.route('/project')
+def display_projects():
+    """Displays the project information"""
+
+    project_title = request.args.get("title")
+    project_info = hackbright.get_project_by_title(project_title.title())
+
+    return render_template("project_info.html", project=project_info)
+
 
 @app.route("/new_student")
 def new_student_form():
     """Display the form for adding a new student"""
     
     return render_template("new_student.html")
+
 
 @app.route("/add_student", methods=['POST'])
 def add_new_student():

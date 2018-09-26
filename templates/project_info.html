@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    {% if project[0] %}
+        <ul>
+            <li>Project title is {{ project[0] }}</li>
+            <li>The project description is {{ project[1] }}</li>
+            <li>The maximum grade is {{ project[2] }}</li>
+        </ul>
+    {% endif %}
+
+{% endblock %}
