@@ -138,16 +138,26 @@ def get_grade_by_github_title(github, title):
 def assign_grade(github, title, grade):
     """Assign a student a grade on an assignment and print a confirmation."""
 
-    QUERY = """
+    QUERY_INSERT = """
         INSERT INTO grades (student_github, project_title, grade)
           VALUES (:github, :title, :grade)
         """
+    QUERY_UPDATE = """
+        UPDATE grades SET grade=:grade 
+        WHERE student_github = :github AND project_title= :title"""
 
-    db.session.execute(QUERY, {'github': github,
-                                           'title': title,
-                                           'grade': grade})
+    existing_grade = get_grade_by_github_title(github, title)
+    if existing_grade[0] is not None:
+        db.session.execute(QUERY_UPDATE, {'github': github,
+                                            'title': title,
+                                            'grade': grade})
+        db.session.commit()
+    else:
+        db.session.execute(QUERY_INSERT, {'github': github,
+                                               'title': title,
+                                               'grade': grade})
 
-    db.session.commit()
+        db.session.commit()
 
     print("Successfully assigned grade of {} for {} in {}"
         .format(grade, github, title))

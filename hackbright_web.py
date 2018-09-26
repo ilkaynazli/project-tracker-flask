@@ -6,6 +6,7 @@ import hackbright
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def get_homepage():
     """Display the homepage for the projects and students"""
@@ -23,6 +24,7 @@ def get_student_form():
     """Show form for searching for a student"""
 
     return render_template("student_search.html")
+
 
 @app.route("/student")
 def get_student():
@@ -84,6 +86,7 @@ def add_new_student():
                             last=last_name,
                             github=github)
 
+
 @app.route("/new_project")
 def new_project_form():
     """Display the form for adding a new project"""
@@ -106,6 +109,29 @@ def add_new_project():
                             max_grade=max_grade)
 
 
+@app.route('/grade_form')
+def display_grade_form():
+    """Displays the grade form to add grades for projects"""
+
+    projects = hackbright.get_all_projects()
+    students = hackbright.get_all_students()
+
+    return render_template("assign_grades.html",
+                            projects=projects,
+                            students=students)
+
+
+@app.route('/assign_grades', methods=['POST'])
+def assign_grades():
+    """Assign grades to student for their project"""
+
+    student_github = request.form.get('student')
+    project_title = request.form.get('project')
+    grade = request.form.get('grade')
+    project = hackbright.get_project_by_title(project_title)
+    hackbright.assign_grade(student_github, project_title, grade)
+
+    return render_template("project_info.html", project=project)
 
 
 if __name__ == "__main__":
