@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Project Info{% endblock %}
+
 {% block content %}
     
     {% if project[0] %}
@@ -9,5 +11,11 @@
             <li>The maximum grade is {{ project[2] }}</li>
         </ul>
     {% endif %}
+
+    <ul>
+        {% for row in rows %}
+            <li><a href="/student?github={{ row[0] }}">{{ row[0] }}</a> got {{ row[1] }} proints from this project</li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

@@ -10,6 +10,23 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 db = SQLAlchemy()
 
+def get_all_projects():
+    """Gets a list of project titles from database"""
+
+    db_cursor = db.session.execute("SELECT title FROM projects")
+    projects = db_cursor.fetchall()
+
+    return projects
+
+
+def get_all_students():
+    """Gets a list of student github usernames from database"""
+
+    db_cursor = db.session.execute("SELECT github FROM students")
+    students = db_cursor.fetchall()
+
+    return students
+
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
@@ -105,7 +122,7 @@ def assign_grade(github, title, grade):
           VALUES (:github, :title, :grade)
         """
 
-    db_cursor = db.session.execute(QUERY, {'github': github,
+    db.session.execute(QUERY, {'github': github,
                                            'title': title,
                                            'grade': grade})
 
